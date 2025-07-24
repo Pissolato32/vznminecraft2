@@ -1,0 +1,26 @@
+# cloudbuild.yaml
+
+# Define os passos da sua build
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/vzn-minecraft-repo/papermc-vzn:latest' # Tag da imagem para o Artifact Registry
+      - '.' # Indica que o Dockerfile está na raiz do diretório da build
+
+# Lista as imagens que devem ser enviadas para o Artifact Registry após a build
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/vzn-minecraft-repo/papermc-vzn:latest'
+
+# Opções de configuração para a build
+options:
+  # Define um bucket de logs específico.
+  # Substitua 'SEU_PROJETO_ID-cloudbuild-logs' pelo nome do seu bucket.
+  # O nome do bucket deve ser globalmente único e pode ser o ID do seu projeto + '-cloudbuild-logs'.
+  logsBucket: 'gs://SEU_PROJETO_ID-cloudbuild-logs'
+
+# Opcional: Configurações para o Artifact Registry
+# Este campo não é diretamente para o cloudbuild.yaml, mas para a configuração do AR.
+# Você precisará criar o repositório 'vzn-minecraft-repo' no Artifact Registry
+# antes da primeira build.
